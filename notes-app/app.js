@@ -1,44 +1,57 @@
-/**
- *  const fs = require('fs');
- *  fs.writeFileSync('notes.txt', 'This file was created by node.js\n');
- *  fs.appendFileSync('notes.txt', 'This line was however appended by node.js');
+// npm packages:
+const yargs = require('yargs')
 
- *  const utils = require('./utils.js')
- *  const add = require('./utils.js')
- *  console.log(utils);
- *  const sum = add(2, 3);
- *  console.log(sum);
- */
-
-// npm packages
-// chalk that is used here is v2.4.x. The latest is on 5.0.0.
-// Latest chalk version doesn't allow "require", but only "import".
-// import chalk from 'chalk';
-const chalk = require('chalk')
-const validator = require('validator')
-
-// custom packages
+// custom packages:
 const getNotes = require('./notes.js')
 
+// Create add command
+yargs.command({
+    command: 'add',
+    describe: 'Add a new note.',
+    builder: {
+        title: {
+            describe: 'Title of the note added.',
+            demandOption: true,
+            type: 'string'
+        },
+        body: {
+            describe: 'Body of the note added.',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function (argv) {
+        // console.log('Adding a new note.')
+        // console.log(argv)
+        console.log('Title: ' + argv.title + '\nBody: ' + argv.body)
+    }
+});
 
-console.log(getNotes());
-console.log(validator.isEmail('some@email.com'));
-console.log(validator.isURL('https://youtube.com'));
+// Create remove command
+yargs.command({
+    command: 'remove',
+    describe: 'Remove a note.',
+    handler: function () {
+        console.log('Note removed!.')
+    }
+});
 
-console.log(chalk.green('Success!'))
-console.log(chalk.bold('This is bold'))
-console.log(chalk.inverse('Colors inverted!'))
-console.log(chalk.inverse.green.bold('Success!'))
-console.log(chalk.inverse.red.bold('Failed!'))
-console.log(chalk.inverse.blue.bold('Wait!'))
+yargs.command({
+    command: 'list',
+    describe: 'List all notes.',
+    handler: function () {
+        console.log('Listing all notes.')
+    }
+});
 
-// process module
-if(process.argv.length > 2) {
-    // end in error
-    console.log('Error!')
-    process.exit();
-} else {
-    process.argv.forEach(element => {
-        console.log(`${element}`);
-    });
-}
+yargs.command({
+    command: 'read',
+    describe: 'Read a note',
+    handler: function () {
+        console.log('Reading note.')
+    }
+});
+
+// add, remove, read, list
+yargs.parse();
+// console.log(yargs.argv);
