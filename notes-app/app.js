@@ -12,7 +12,17 @@
 
 const getNotes = require('./notes.js')
 const validator = require('validator')
+// chalk that is used here is v2.4.x. The latest is on 5.0.0.
+// Latest chalk version doesn't allow "require", but only "import".
+const chalk = require('chalk')
+// import chalk from 'chalk';
 
 console.log(getNotes());
 console.log(validator.isEmail('some@email.com'));
 console.log(validator.isURL('https://youtube.com'));
+
+console.log(chalk.green('Success!'))
+console.log(chalk.bold('This is bold'))
+console.log(chalk.inverse('Colors inverted!'))
+console.log(chalk.inverse.green.bold('Success!'))
+console.log(chalk.inverse.red.bold('Failed!'))
