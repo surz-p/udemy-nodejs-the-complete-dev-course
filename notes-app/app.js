@@ -11,5 +11,8 @@
  */
 
 const getNotes = require('./notes.js')
+const validator = require('validator')
 
 console.log(getNotes());
+console.log(validator.isEmail('some@email.com'));
+console.log(validator.isURL('https://youtube.com'));
