@@ -10,12 +10,16 @@
  *  console.log(sum);
  */
 
-const getNotes = require('./notes.js')
-const validator = require('validator')
+// npm packages
 // chalk that is used here is v2.4.x. The latest is on 5.0.0.
 // Latest chalk version doesn't allow "require", but only "import".
-const chalk = require('chalk')
 // import chalk from 'chalk';
+const chalk = require('chalk')
+const validator = require('validator')
+
+// custom packages
+const getNotes = require('./notes.js')
+
 
 console.log(getNotes());
 console.log(validator.isEmail('some@email.com'));
@@ -27,3 +31,14 @@ console.log(chalk.inverse('Colors inverted!'))
 console.log(chalk.inverse.green.bold('Success!'))
 console.log(chalk.inverse.red.bold('Failed!'))
 console.log(chalk.inverse.blue.bold('Wait!'))
+
+// process module
+if(process.argv.length > 2) {
+    // end in error
+    console.log('Error!')
+    process.exit();
+} else {
+    process.argv.forEach(element => {
+        console.log(`${element}`);
+    });
+}
