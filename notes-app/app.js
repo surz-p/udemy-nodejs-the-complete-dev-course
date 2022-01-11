@@ -41,11 +41,12 @@ yargs.command({
     }
 });
 
+// Create list command
 yargs.command({
     command: 'list',
     describe: 'List all notes.',
     handler() {
-        console.log('Listing all notes.')
+        noteHelper.listNote();
     }
 });
 

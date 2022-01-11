@@ -3,6 +3,7 @@ const chalk = require('chalk')
 const warnStatus = chalk.hex('#FFA500'); // Orange color
 const addStatus = chalk.green;
 const removeStatus = chalk.red;
+const header = chalk.bold.inverse;
 
 const getNote = () => 'Your notes...';
 
@@ -28,8 +29,9 @@ const truncateNotes = () => {
 const addNote = (title, body) => {
     const allNotes = fetchNotes();
     // push a note, only if the title is not already present in the db store
-    const duplicateNotes = allNotes.filter(note => note.title === title);
-    if(duplicateNotes.length === 0) {
+    // const duplicateNotes = allNotes.filter(note => note.title === title);
+    const duplicateNote = allNotes.find(note => note.title === title);
+    if(!duplicateNote) {
         allNotes.push({
             title: title,
             body: body
@@ -61,8 +63,21 @@ const removeNote = (title) => {
     }
 }
 
+const listNote = () => {
+    const allNotes = fetchNotes();
+    if(allNotes.length === 0) {
+        console.log(warnStatus('No notes to display.'));
+    } else {
+        console.log(header('Your notes:'));
+        allNotes.forEach((note, idx) => {
+            console.log(idx + 1 + '. ' + note.title);
+        });
+    }
+}
+
 module.exports = {
     getNote: getNote,
     addNote: addNote,
-    removeNote: removeNote
+    removeNote: removeNote,
+    listNote: listNote
 };
