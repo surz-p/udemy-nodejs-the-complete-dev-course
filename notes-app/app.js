@@ -1,9 +1,8 @@
 // npm packages:
 const yargs = require('yargs');
-const notes = require('./notes.js');
 
 // custom packages:
-const noteUtility = require('./notes.js')
+const noteHelper = require('./notes.js')
 
 // Create add command
 yargs.command({
@@ -22,7 +21,7 @@ yargs.command({
         }
     },
     handler: function (argv) {
-        noteUtility.addNote(argv.title, argv.body);
+        noteHelper.addNote(argv.title, argv.body);
     }
 });
 
@@ -30,8 +29,15 @@ yargs.command({
 yargs.command({
     command: 'remove',
     describe: 'Remove a note.',
-    handler: function () {
-        console.log('Note removed!.')
+    builder: {
+        title: {
+            describe: 'Title of note to be removed.',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function (argv) {
+        noteHelper.removeNote(argv.title);
     }
 });
 
