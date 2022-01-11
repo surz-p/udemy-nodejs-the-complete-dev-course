@@ -4,11 +4,9 @@ const warnStatus = chalk.hex('#FFA500'); // Orange color
 const addStatus = chalk.green;
 const removeStatus = chalk.red;
 
-const getNote = function () {
-    return 'Your notes...'
-};
+const getNote = () => 'Your notes...';
 
-const fetchNotes = function () {
+const fetchNotes = () => {
     try {
         const noteBuffer = fs.readFileSync('notes.json');
         const noteList = noteBuffer.toString();
@@ -18,21 +16,19 @@ const fetchNotes = function () {
     }
 }
 
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
     const allNotes = JSON.stringify(notes);
     fs.writeFileSync('notes.json', allNotes)
 }
 
-const truncateNotes = function () {
+const truncateNotes = () => {
     fs.truncateSync('notes.json', 0)
 }
 
-const addNote = function (title, body) {
+const addNote = (title, body) => {
     const allNotes = fetchNotes();
     // push a note, only if the title is not already present in the db store
-    const duplicateNotes = allNotes.filter((note) => {
-        return note.title === title
-    });
+    const duplicateNotes = allNotes.filter(note => note.title === title);
     if(duplicateNotes.length === 0) {
         allNotes.push({
             title: title,
@@ -46,15 +42,13 @@ const addNote = function (title, body) {
     }
 };
 
-const removeNote = function (title) {
+const removeNote = (title) => {
     const allNotes = fetchNotes();
     if(allNotes.length === 0) {
         console.log(warnStatus('No notes available to remove from.'));
         return;
     }
-    const allNotesWithoutTitle = allNotes.filter(note => {
-        return note.title !== title
-    });
+    const allNotesWithoutTitle = allNotes.filter(note => note.title !== title);
     if(allNotesWithoutTitle.length !== allNotes.length) {
         if(allNotesWithoutTitle.length === 0) {
             truncateNotes();
