@@ -1,8 +1,9 @@
 // npm packages:
-const yargs = require('yargs')
+const yargs = require('yargs');
+const notes = require('./notes.js');
 
 // custom packages:
-const getNotes = require('./notes.js')
+const noteUtility = require('./notes.js')
 
 // Create add command
 yargs.command({
@@ -10,20 +11,18 @@ yargs.command({
     describe: 'Add a new note.',
     builder: {
         title: {
-            describe: 'Title of the note added.',
+            describe: 'Title of the note being added.',
             demandOption: true,
             type: 'string'
         },
         body: {
-            describe: 'Body of the note added.',
+            describe: 'Body of the note being added.',
             demandOption: true,
             type: 'string'
         }
     },
     handler: function (argv) {
-        // console.log('Adding a new note.')
-        // console.log(argv)
-        console.log('Title: ' + argv.title + '\nBody: ' + argv.body)
+        noteUtility.addNote(argv.title, argv.body);
     }
 });
 
