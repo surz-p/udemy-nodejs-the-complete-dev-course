@@ -1,11 +1,12 @@
 const fs = require('fs')
 const chalk = require('chalk')
+
+// set global status formatting types
 const warnStatus = chalk.hex('#FFA500'); // Orange color
 const addStatus = chalk.green;
 const removeStatus = chalk.red;
-const header = chalk.bold.inverse;
-
-const getNote = () => 'Your notes...';
+const readStatus = chalk.italic.underline;
+const headerStatus = chalk.bold.inverse;
 
 const fetchNotes = () => {
     try {
@@ -29,7 +30,6 @@ const truncateNotes = () => {
 const addNote = (title, body) => {
     const allNotes = fetchNotes();
     // push a note, only if the title is not already present in the db store
-    // const duplicateNotes = allNotes.filter(note => note.title === title);
     const duplicateNote = allNotes.find(note => note.title === title);
     if(!duplicateNote) {
         allNotes.push({
@@ -40,7 +40,6 @@ const addNote = (title, body) => {
         console.log(addStatus('New note added!'))
     } else {
         console.log(warnStatus('Duplicate title entered.'));
-        // process.exit();
     }
 };
 
@@ -57,9 +56,9 @@ const removeNote = (title) => {
         } else {
             saveNotes(allNotesWithoutTitle);
         }
-        console.log(removeStatus('Note deleted!'))
+        console.log(removeStatus('Note deleted!'));
     } else {
-        console.log(warnStatus('No note with title "' + title + '" found.'))
+        console.log(warnStatus('No note with title "' + title + '" found.'));
     }
 }
 
@@ -68,16 +67,26 @@ const listNote = () => {
     if(allNotes.length === 0) {
         console.log(warnStatus('No notes to display.'));
     } else {
-        console.log(header('Your notes:'));
+        console.log(headerStatus('Your notes:'));
         allNotes.forEach((note, idx) => {
             console.log(idx + 1 + '. ' + note.title);
         });
     }
 }
 
+const readNote = (title) => {
+    const allNotes = fetchNotes();
+    const noteToRead = allNotes.find(note => note.title === title);
+    if(!noteToRead) {
+        console.log(warnStatus('No note with title "' + title + '" found.'))
+    } else {
+        console.log(readStatus(noteToRead.title) + ': ' + noteToRead.body);
+    }
+}
+
 module.exports = {
-    getNote: getNote,
     addNote: addNote,
     removeNote: removeNote,
-    listNote: listNote
+    listNote: listNote,
+    readNote: readNote
 };
