@@ -1,8 +1,12 @@
 // module that defines/exports types of text formats
 const chalk = require('chalk')
 
-const responseParameters = chalk.bold.red;
+const info = chalk.bold.green;
+const warn = chalk.bold.red;
+const log = chalk.bold;
 
 module.exports = {
-    responseParameters: responseParameters
+    info: info,
+    warn: warn,
+    log: log
 };
