@@ -18,6 +18,7 @@ const url = "http://api.weatherstack.com/current"
     + "?access_key=688b742c07634c35077e590aefaa25ad&query=Hyderabad";
 
 postmanRequest({url: url, json: true}, (error, response) => {
+    response.body.current.weather_descriptions.forEach(desc => console.log(textFormat.responseParameters(desc) + '.'));
     console.log('It is currently '
         + textFormat.responseParameters(response.body.current.temperature)
         + ' degrees outside.');
