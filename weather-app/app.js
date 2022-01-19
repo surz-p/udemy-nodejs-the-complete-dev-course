@@ -26,8 +26,11 @@ const url = "http://api.weatherstack.com/current"
     + "?access_key=688b742c07634c35077e590aefaa25ad&query=Hyderabad";
 
 postmanRequest({url: url, json: true}, (error, response) => {
-    if(error) {
+    if (error) {
         console.log(warn('Request to fetch weather data failed!'));
+    } else if (response.body.error) {
+        console.log(log('Error while requesting data. Code: ' + warn(response.body.error.code)));
+        console.log(warn(response.body.error.info));
     } else {
         response.body.current.weather_descriptions.forEach(desc => console.log(info(desc) + '.'));
         console.log(log('It is currently ')
@@ -45,8 +48,10 @@ const geoUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.
 
 // had to use strictSSL: false to avoid crashing into an error!
 postmanRequest({url: geoUrl, json: true, strictSSL: false}, (error, response) => {
-    if(error) {
+    if (error) {
         console.log(warn('Request to fetch geo-location failed!'))
+    } else if (response.body.features.length === 0) {
+        console.log(warn('Invalid input parameters. Try again with a valid input.'));
     } else {
         const coordinates = response.body.features[0].center;
         console.log(log('Longitude is: ') + info(coordinates[0]));
