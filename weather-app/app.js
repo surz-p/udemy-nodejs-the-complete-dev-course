@@ -7,18 +7,26 @@ const { info, warn, log } = require('./text-formatter');
 const Geo = require('./utils/geoCode');
 const Weather = require('./utils/forecast');
 
-Geo.getGeoCode('New York', (error, data) => {
-    if (error) {
-        console.log(warn(error));
-    } else {
-        console.log(info(JSON.stringify(data)));
-    }
-});
+if(process.argv.length !== 3) {
+    console.log(warn('Please use a valid input parameter to fetch weather data for.'));
+    console.log(warn('E.g., node app.js Moscow'));
+    console.log(warn('Try wrapping the parameter in quotes to search for spaced strings.'));
+    console.log(warn('E.g., node app.js "Moscow Russia"'));
+    return;
+}
 
-Weather.getForecast(-73.9866, 40.7306, (error, data) => {
+const searchParameter = process.argv[2];
+
+Geo.getGeoCode(searchParameter, (error, geoCodeResponse) => {
     if (error) {
-        console.log(warn(error));
-    } else {
-        console.log(info(data));
+        return console.log(warn(error));
     }
+    Weather.getForecast(geoCodeResponse.longitude, geoCodeResponse.latitude, (error, forecastResponse) => {
+        if (error) {
+            return console.log(warn(error));
+        }
+        console.log(log('For the location: ') + info(geoCodeResponse.nameLocation)
+            + log(', the forecast is as follows:'));
+        console.log(info(forecastResponse));
+    });
 });
