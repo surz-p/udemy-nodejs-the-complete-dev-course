@@ -24,7 +24,7 @@ const getGeoCode = (address, callback) => {
             callback('Invalid input parameters. Try again with a valid input.');
         } else {
             callback(undefined, {
-                longtitude: response.body.features[0].center[0],
+                longitude: response.body.features[0].center[0],
                 latitude: response.body.features[0].center[1],
                 nameLocation: response.body.features[0].place_name
             });
