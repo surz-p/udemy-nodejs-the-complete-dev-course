@@ -9,7 +9,7 @@ const removeStatus = chalk.red;
 const readStatus = chalk.italic.underline;
 const headerStatus = chalk.bold.inverse;
 
-const fetchNotes = () => {
+const fetchNoteList = () => {
     try {
         const notesBuffer = fs.readFileSync('notes.json');
         const notesList = notesBuffer.toString();
@@ -19,17 +19,17 @@ const fetchNotes = () => {
     }
 }
 
-const saveNotes = (notes) => {
+const saveNoteList = (notes) => {
     const allNotes = JSON.stringify(notes);
     fs.writeFileSync('notes.json', allNotes)
 }
 
-const truncateNotes = () => {
+const truncateNoteList = () => {
     fs.truncateSync('notes.json', 0)
 }
 
 const addNote = (title, body) => {
-    const allNotes = fetchNotes();
+    const allNotes = fetchNoteList();
     // push a note, only if the title is not already present in the db store
     const duplicateNote = allNotes.find(note => note.title === title);
     if(!duplicateNote) {
@@ -37,7 +37,7 @@ const addNote = (title, body) => {
             title: title,
             body: body
         });
-        saveNotes(allNotes);
+        saveNoteList(allNotes);
         console.log(addStatus('New note added!'))
     } else {
         console.log(warnStatus('Duplicate title entered.'));
@@ -45,7 +45,7 @@ const addNote = (title, body) => {
 };
 
 const removeNote = (title) => {
-    const allNotes = fetchNotes();
+    const allNotes = fetchNoteList();
     if(allNotes.length === 0) {
         console.log(warnStatus('No notes available to remove from.'));
         return;
@@ -53,9 +53,9 @@ const removeNote = (title) => {
     const allNotesWithoutTitle = allNotes.filter(note => note.title !== title);
     if(allNotesWithoutTitle.length !== allNotes.length) {
         if(allNotesWithoutTitle.length === 0) {
-            truncateNotes();
+            truncateNoteList();
         } else {
-            saveNotes(allNotesWithoutTitle);
+            saveNoteList(allNotesWithoutTitle);
         }
         console.log(removeStatus('Note removed!'));
     } else {
@@ -64,7 +64,7 @@ const removeNote = (title) => {
 }
 
 const listNote = () => {
-    const allNotes = fetchNotes();
+    const allNotes = fetchNoteList();
     if(allNotes.length === 0) {
         console.log(warnStatus('No notes to display.'));
     } else {
@@ -76,7 +76,7 @@ const listNote = () => {
 }
 
 const readNote = (title) => {
-    const allNotes = fetchNotes();
+    const allNotes = fetchNoteList();
     const noteToRead = allNotes.find(note => note.title === title);
     if(!noteToRead) {
         console.log(warnStatus('No note with title "' + title + '" found.'))
