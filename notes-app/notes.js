@@ -2,7 +2,8 @@ const fs = require('fs')
 const chalk = require('chalk')
 
 // set global status formatting types
-const warnStatus = chalk.hex('#FFA500'); // Orange color
+// Orange color
+const warnStatus = chalk.hex('#FFA500');
 const addStatus = chalk.green;
 const removeStatus = chalk.red;
 const readStatus = chalk.italic.underline;
@@ -10,9 +11,9 @@ const headerStatus = chalk.bold.inverse;
 
 const fetchNotes = () => {
     try {
-        const noteBuffer = fs.readFileSync('notes.json');
-        const noteList = noteBuffer.toString();
-        return JSON.parse(noteList);
+        const notesBuffer = fs.readFileSync('notes.json');
+        const notesList = notesBuffer.toString();
+        return JSON.parse(notesList);
     } catch (e) {
         return [];
     }
@@ -56,7 +57,7 @@ const removeNote = (title) => {
         } else {
             saveNotes(allNotesWithoutTitle);
         }
-        console.log(removeStatus('Note deleted!'));
+        console.log(removeStatus('Note removed!'));
     } else {
         console.log(warnStatus('No note with title "' + title + '" found.'));
     }

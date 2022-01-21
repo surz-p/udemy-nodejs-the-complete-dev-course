@@ -2,26 +2,26 @@
 const yargs = require('yargs');
 
 // custom packages:
-const noteHelper = require('./notes.js')
+const notesHelper = require('./notes.js')
 
 // Create add command
 yargs.command({
     command: 'add',
-    describe: 'Add a new note.',
+    describe: 'Add a note.',
     builder: {
         title: {
-            describe: 'Title of the note being added.',
+            describe: 'Title of the note to be added.',
             demandOption: true,
             type: 'string'
         },
         body: {
-            describe: 'Body of the note being added.',
+            describe: 'Body of the note to be added.',
             demandOption: true,
             type: 'string'
         }
     },
     handler(argv) {
-        noteHelper.addNote(argv.title, argv.body);
+        notesHelper.addNote(argv.title, argv.body);
     }
 });
 
@@ -37,7 +37,7 @@ yargs.command({
         }
     },
     handler(argv) {
-        noteHelper.removeNote(argv.title);
+        notesHelper.removeNote(argv.title);
     }
 });
 
@@ -46,7 +46,7 @@ yargs.command({
     command: 'list',
     describe: 'List all notes.',
     handler() {
-        noteHelper.listNote();
+        notesHelper.listNote();
     }
 });
 
@@ -62,7 +62,7 @@ yargs.command({
         }
     },
     handler(argv) {
-        noteHelper.readNote(argv.title);
+        notesHelper.readNote(argv.title);
     }
 });
 
