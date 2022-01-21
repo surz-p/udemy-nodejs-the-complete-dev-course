@@ -17,15 +17,15 @@ if(process.argv.length !== 3) {
 
 const searchParameter = process.argv[2];
 
-Geo.getGeoCode(searchParameter, (error, geoCodeResponse) => {
+Geo.getGeoCode(searchParameter, (error, { longitude, latitude, nameLocation } = {}) => {
     if (error) {
         return console.log(warn(error));
     }
-    Weather.getForecast(geoCodeResponse.longitude, geoCodeResponse.latitude, (error, forecastResponse) => {
+    Weather.getForecast(longitude, latitude, (error, forecastResponse) => {
         if (error) {
             return console.log(warn(error));
         }
-        console.log(log('For the location: ') + info(geoCodeResponse.nameLocation)
+        console.log(log('For the location: ') + info(nameLocation)
             + log(', the forecast is as follows:'));
         console.log(info(forecastResponse));
     });
